@@ -1,0 +1,15 @@
+Attack or run options on enemy detection
+
+display ui 
+
+Dungeon map / room class 
+
+monster run / attack on room entrance 
+    loop optin for attack or run until monster health = 0
+    
+set up gold pick ups / set random range for amount of gold to be picked up 
+
+set up health elixars
+
+room descriptions 
+
