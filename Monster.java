@@ -52,7 +52,6 @@ public class Monster {
             this.health = 55;
             this.damage = 5;
         }
-        System.out.println(this.getHealth());
     }
 
 }

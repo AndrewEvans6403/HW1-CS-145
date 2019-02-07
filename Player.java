@@ -1,6 +1,6 @@
-/**
- * Created by evansa30 on 2/6/19.
- */
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Player {
     private int health;
     private int gold;
@@ -8,44 +8,7 @@ public class Player {
     private String playerClass;
     private double lootModifier;
 
-
-
-    // set constants for classes
-    private final int THIEF_STARTING_HEALTH = 70;
-    private final int THIEF_STARTING_GOLD = 0;
-    private final int THIEF_STARTING_DAMAGE = 10;
-    private final double THIEF_LOOT_MODIFIER = 0.2;
-
-    private final int WARRIOR_STARTING_HEALTH = 100;
-    private final int WARRIOR_STARTING_GOLD = 0;
-    private final int WARRIOR_STARTING_DAMAGE = 15;
-
-
-
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getGold() {
-        return gold;
-    }
-
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
+    Random random = new Random();
 
     public String getPlayerClass() {
         return playerClass;
@@ -53,49 +16,72 @@ public class Player {
 
     public void setPlayerClass(String playerClass) {
         this.playerClass = playerClass;
-
-        // if player chooses warrior class
-        if(getPlayerClass().equals("1")){
-            health = WARRIOR_STARTING_HEALTH;
-            damage = WARRIOR_STARTING_DAMAGE;
-            gold = WARRIOR_STARTING_GOLD;
+        // if user is thief class set attributes
+        if(this.playerClass.equals("T") || this.playerClass.equals("t")){
+            this.health = 70;
+            this.damage = 10;
+            this.lootModifier = .20;
         }
-
-        // if player chooses thief class
-        else if(getPlayerClass().equals("2")){
-            health = THIEF_STARTING_HEALTH;
-            damage = THIEF_STARTING_DAMAGE;
-            gold = THIEF_STARTING_GOLD;
-            lootModifier = THIEF_LOOT_MODIFIER;
+        // if user is warrior class set attributes
+        else if(this.playerClass.equals("W") || this.playerClass.equals("w")){
+            this.health = 100;
+            this.damage = 15;
+            this.lootModifier = 0;
         }
 
 
-
+    }
+    // accessor and mutator methods
+    public int getHealth() {
+        return health;
+    }
+    public void setHealth(int health) {this.health = health;}
+    public int getDamage() {
+        return damage;
+    }
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+    public int getGold() {
+        return gold;
+    }
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+    public double getLootModifier() {
+        return lootModifier;
+    }
+    public void setLootModifier(double lootModifier) {
+        this.lootModifier = lootModifier;
     }
 
-    public void attack(Monster target){
-        System.out.println("Player hits " + target.getMonsterType() + " for " + damage);
 
-        target.onHit(damage);
+    public void attack() {
+        int minDamage = 5;
+        int maxDamage = 26;
+        // set random num between min and max range
+        int randNum = ThreadLocalRandom.current().nextInt(minDamage,maxDamage);
     }
-    public void onHit(int damage){
 
-        health -= damage;
+    public void onHit(int damage) {
+        this.health -= damage;
+    }
 
-        if(health <=0){
-            System.out.println("The player has died");
+    public void onHeal(int health) {
+
+
+        // if thief picks up potion and it exceeds players current max health update players health
+        if (((this.playerClass.equals("T") || this.playerClass.equals("t")) && (this.health >= 70))) {
+            this.health = 70;
         }
+        // if warrior picks up potion and it exceeds players current max health update players health
+        if (((this.playerClass.equals("W") || this.playerClass.equals("w")) && (this.health >= 100))) {
+            this.health = 100;
+        }
+    }
+
+    public void onLoot(int gold) {
 
     }
 
-    public void onHeal(int health){
-        this.health += health;
-
-
-    }
-
-    public void onLoot(int gold){
-        this.gold += gold;
-    }
 }
-
