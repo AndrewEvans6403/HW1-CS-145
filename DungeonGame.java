@@ -1,12 +1,45 @@
 import java.util.Scanner;
 public class DungeonGame {
-    private DungeonMap map = new DungeonMap();
-    public Player player = new Player();
-    private Room room;
+    private DungeonMap map;
+    private Player player = new Player();
+    private Room[][] room;
     private Scanner scanner = new Scanner(System.in);;
     private String pClass;
+    private int xPos = 0;
+    private int yPos = 0;
 
     public DungeonGame() {
+        boolean cont = true;
+        while (cont) {
+            System.out.println("Do you want the basic map dimensions? y/n ");
+            Scanner scanner = new Scanner(System.in);
+            String basicDimensions = scanner.nextLine();
+
+            if (basicDimensions.equalsIgnoreCase("y")) {
+                xPos = 10;
+                yPos = 10;
+                cont = false;
+            } else if (basicDimensions.equalsIgnoreCase("n")) {
+
+                while (xPos < 3) {
+                    System.out.println("Enter X dimension that is greater than 3");
+                    xPos = scanner.nextInt();
+                }
+                while (yPos < 3) {
+                    System.out.println("Enter Y dimension that is greater than 3");
+                    yPos = scanner.nextInt();
+                }
+                cont = false;
+            }else {
+                System.out.println("Input not recognized.");
+            }
+        }
+            room = new Room[yPos][xPos];
+
+        map  = new DungeonMap(player,room);
+
+        map.setDungeonMap(xPos, yPos);
+
     }
 
     public void play() {
@@ -28,32 +61,7 @@ public class DungeonGame {
         }
             player.setPlayerClass(pClass);
 
-        boolean cont = true;
-        while (cont) {
-            System.out.println("Do you want the basic map dimensions? y/n ");
-            Scanner scanner = new Scanner(System.in);
-            String basicDimensions = scanner.nextLine();
 
-            if (basicDimensions.equalsIgnoreCase("y")) {
-                map.setDungeonMap(10, 10);
-                cont = false;
-            } else if (basicDimensions.equalsIgnoreCase("n")) {
-                int x = 0;
-                int y = 0;
-                while (x < 3) {
-                    System.out.println("Enter X dimension that is greater than 3");
-                    x = scanner.nextInt();
-                }
-                while (y < 3) {
-                    System.out.println("Enter Y dimension that is greater than 3");
-                    y = scanner.nextInt();
-                }
-                map.setDungeonMap(x, y);
-                cont = false;
-            }else {
-                System.out.println("Input not recognized.");
-            }
-        }
         System.out.println("===================================================");
 
         while (true) {
@@ -117,8 +125,6 @@ public class DungeonGame {
                 return;
         }
 
-        room = new Room();
-        room.enter(player);
 
 
     }
