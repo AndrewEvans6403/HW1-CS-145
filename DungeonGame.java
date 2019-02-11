@@ -11,6 +11,23 @@ public class DungeonGame {
     public DungeonGame() {
         boolean cont = true;
         while (cont) {
+            boolean validClass = false;
+
+            System.out.println("Welcome to the dungeon!! \n" +
+                    "You are surrounded by bags of gold and healing elixirs, but beware the monsters.\n");
+
+            while(!validClass) {
+
+
+                System.out.println("Select your class");
+                System.out.println("[1] Warrior");
+                System.out.println("[2] Thief");
+                pClass = scanner.nextLine();
+                if(pClass.equals("1") || pClass.equals("2")){
+                    validClass = true;
+                }
+            }
+            player.setPlayerClass(pClass);
             System.out.println("Do you want the basic map dimensions? y/n ");
             Scanner scanner = new Scanner(System.in);
             String basicDimensions = scanner.nextLine();
@@ -34,9 +51,9 @@ public class DungeonGame {
                 System.out.println("Input not recognized.");
             }
         }
-            room = new Room[yPos][xPos];
 
-        map  = new DungeonMap(player,room);
+
+        map  = new DungeonMap(player, yPos, xPos);
 
         map.setDungeonMap(xPos, yPos);
 
@@ -48,39 +65,41 @@ public class DungeonGame {
         System.out.println("Welcome to the dungeon!! \n" +
                 "You are surrounded by bags of gold and healing elixirs, but beware the monsters.\n");
 
-        while(!validClass) {
-
-
-            System.out.println("Select your class");
-            System.out.println("[1] Warrior");
-            System.out.println("[2] Thief");
-            pClass = scanner.nextLine();
-            if(pClass.equals("1") || pClass.equals("2")){
-                validClass = true;
-            }
-        }
-            player.setPlayerClass(pClass);
 
 
         System.out.println("===================================================");
 
-        while (true) {
+        boolean gameLoop = true;
+        while (gameLoop) {
             //construct and print out updated map of the dungeon each turn
-
+           
             map.print();
-
+            System.out.println("HP: "+player.getHealth());
+            System.out.println("Gold: "+player.getGold()+99);
+        
+            String userMove;
 
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Select a door: [W] up, [S] down, [A] left, [D] right, [q] exit ==>  ");
-            String userMove = scanner.next();
+            System.out.println("Select a door: [W] up, [S] down, [A] left, [D] right, [Q] exit ==>  ");
+            userMove = scanner.next();
 
-            if (userMove == "q") {
+            if (userMove == "Q") {
+                gameLoop = false;
+                break;
+            }
+            else
+
+            if(player.getGold() >= 100){
+                System.out.println("You have found 100 gold pieces to escape the dungeon!");
+                System.out.println("Congratulations you win!");
+                gameLoop = false;
                 break;
             }
 
             handleUserInput(userMove);
 
             if (!isPlayerAlive()) {
+                System.out.println("You have died which means your adventure comes to an end.... until next time");
                 break;
             }
 
@@ -98,33 +117,34 @@ public class DungeonGame {
             case "w":
                 if (map.playerLocationValid(0, -1)) {
                     map.playerLocation(0, -1);
-                } else {
-                    break;
                 }
+                break;
+
             case "s":
                 if (map.playerLocationValid(0, 1)) {
                     map.playerLocation(0, 1);
-                } else {
-                    break;
                 }
+                break;
+
             case "a":
-                if (map.playerLocationValid(1, 0)) {
-                    map.playerLocation(1, 0);
-                } else {
-                    break;
+                if (map.playerLocationValid(-1, 0)) {
+                    map.playerLocation(-1, 0);
                 }
-                //fix directions so player move in correct direction
+                break;
+
+            //fix directions so player move in correct direction
             case "d":
                 if (map.playerLocationValid(1, 0)) {
                     map.playerLocation(1, 0);
-                } else {
-                    break;
                 }
+                break;
+
+
             default:
                 System.out.println("Input choice not recognized.");
-                return;
+                break;
         }
-
+       
 
 
     }
