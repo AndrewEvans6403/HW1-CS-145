@@ -3,7 +3,7 @@ public class Player {
     private int gold;
     private int damage;
     private String playerClass;
-    private String playerIcon = "W";
+    private String playerIcon = "";
     private double lootModifier;
 
 
@@ -13,7 +13,9 @@ public class Player {
     private final int THIEF_STARTING_GOLD = 0;
     private final int THIEF_STARTING_DAMAGE = 10;
     private final double THIEF_LOOT_MODIFIER = 0.2;
+    private final String THIEF_ICON = "T";
 
+    private final String WARRIOR_ICON = "W";
     private final int WARRIOR_STARTING_HEALTH = 100;
     private final int WARRIOR_STARTING_GOLD = 0;
     private final int WARRIOR_STARTING_DAMAGE = 15;
@@ -57,7 +59,7 @@ public class Player {
             health = WARRIOR_STARTING_HEALTH;
             damage = WARRIOR_STARTING_DAMAGE;
             gold = WARRIOR_STARTING_GOLD;
-            playerIcon = "W";
+           playerIcon = WARRIOR_ICON;
         }
 
         // if player chooses thief class
@@ -66,7 +68,7 @@ public class Player {
             damage = THIEF_STARTING_DAMAGE;
             gold = THIEF_STARTING_GOLD;
             lootModifier = THIEF_LOOT_MODIFIER;
-            playerIcon = "T";
+            playerIcon = THIEF_ICON;
         }
 
 
@@ -91,15 +93,20 @@ public class Player {
     }
 
     public void onHeal(int health){
-        this.health += health;
+
         //check for max health
         if(getPlayerClass().equals("1")){
-            if(health > WARRIOR_STARTING_HEALTH){
+            this.health+=health;
+            if(this.health >= WARRIOR_STARTING_HEALTH){
                 this.health = WARRIOR_STARTING_HEALTH;
+            }
+            if(this.health < WARRIOR_STARTING_HEALTH){
+
             }
         }
         else if(getPlayerClass().equals("2")){
-            if(health > THIEF_STARTING_HEALTH){
+            this.health+=health;
+            if(this.health > THIEF_STARTING_HEALTH){
                 this.health = THIEF_STARTING_HEALTH;
             }
         }
@@ -107,10 +114,10 @@ public class Player {
     }
 
     public void onLoot(int gold){
-        if(getPlayerClass().equals("1"){
+        if(getPlayerClass().equals("1")){
             this.gold += gold;
         }
-        else if(getPlayerClass().equals("2"){
+        else if(getPlayerClass().equals("2")){
             this.gold += (gold * THIEF_LOOT_MODIFIER);
         }
     }
