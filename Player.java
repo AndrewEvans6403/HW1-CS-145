@@ -130,3 +130,21 @@ public class Player {
         this.playerIcon = playerIcon;
     }
 }
+
+    public void onLoot(int gold){
+        if(getPlayerClass().equals("1")){
+            this.gold += gold;
+        }
+        else if(getPlayerClass().equals("2")){
+            this.gold += (gold * THIEF_LOOT_MODIFIER);
+        }
+    }
+
+    public String getPlayerIcon() {
+        return playerIcon;
+    }
+
+    public void setPlayerIcon(String playerIcon) {
+        this.playerIcon = playerIcon;
+    }
+}
