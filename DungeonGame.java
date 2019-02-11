@@ -72,23 +72,7 @@ public class DungeonGame {
         boolean gameLoop = true;
         while (gameLoop) {
             //construct and print out updated map of the dungeon each turn
-           
-            map.print();
-            System.out.println("HP: "+player.getHealth());
-            System.out.println("Gold: "+player.getGold()+99);
-        
-            String userMove;
-
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Select a door: [W] up, [S] down, [A] left, [D] right, [Q] exit ==>  ");
-            userMove = scanner.next();
-
-            if (userMove == "Q") {
-                gameLoop = false;
-                break;
-            }
-            else
-
+            // win condition
             if(player.getGold() >= 100){
                 System.out.println("You have found 100 gold pieces to escape the dungeon!");
                 System.out.println("Congratulations you win!");
@@ -96,8 +80,27 @@ public class DungeonGame {
                 break;
             }
 
+            map.print();
+            System.out.println("HP: "+player.getHealth());
+            System.out.println("Gold: "+player.getGold());
+
+            String userMove;
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Select a door: [W] up, [S] down, [A] left, [D] right, [Q] exit ==>  ");
+            userMove = scanner.next();
+
+
+            if (userMove.equals("Q")) {
+                gameLoop = false;
+                break;
+            }
+
+
+
             handleUserInput(userMove);
 
+            // lose condition
             if (!isPlayerAlive()) {
                 System.out.println("You have died which means your adventure comes to an end.... until next time");
                 break;
@@ -144,7 +147,7 @@ public class DungeonGame {
                 System.out.println("Input choice not recognized.");
                 break;
         }
-       
+
 
 
     }
